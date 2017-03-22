@@ -1,0 +1,11 @@
+apiVersion: "skpr.io/v1" 
+kind: Efs
+metadata:
+  namespace: test
+  name: example
+spec:
+  region: "ap-southeast-2"
+  subnets:
+    - "subnet-XXXXXXXX" 
+    - "subnet-XXXXXXXX" 
+  securityGroup: "sg-XXXXXXXX"

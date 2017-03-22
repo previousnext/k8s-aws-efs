@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: aws-efs
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: aws-efs
+    spec:
+      containers:
+      - name: provisioner
+        image: previousnext/k8s-aws-efs:latest
+        imagePullPolicy: Always
+        command:
+        - /provisioner
+        resources:
+          limits:
+            cpu: 10m
+            memory: 25Mi
+          requests:
+            cpu: 10m
+            memory: 25Mi
+      - name: status
+        image: previousnext/k8s-aws-efs:latest
+        imagePullPolicy: Always
+        command:
+        - /status
+        resources:
+          limits:
+            cpu: 10m
+            memory: 25Mi
+          requests:
+            cpu: 10m
+            memory: 25Mi
