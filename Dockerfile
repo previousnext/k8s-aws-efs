@@ -9,7 +9,7 @@ ADD provisioner /go/src/github.com/previousnext/provisioner
 ADD status /go/src/github.com/previousnext/status
 ADD cli /go/src/github.com/previousnext/cli
 
-RUN make && \
+RUN make build && \
       mv bin/linux/cli/client /usr/local/bin/cli && \
       mv bin/linux/server/provisioner /usr/local/bin/provisioner && \
       mv bin/linux/server/status /usr/local/bin/status && \

@@ -47,6 +47,8 @@ type Efs struct {
 	Status EfsStatus `json:"status"`
 }
 
+// This creates a url based on Spec.Region and Status.ID.
+// http://docs.aws.amazon.com/efs/latest/ug/mounting-fs.html
 func (e *Efs) Endpoint() (string, error) {
 	if e.Status.ID == "" {
 		return "", fmt.Errorf("Cannot find filesystem ID")
@@ -64,12 +66,15 @@ func (e *Efs) CreationToken() string {
 	return fmt.Sprintf("%s-%s", e.Metadata.Namespace, e.Metadata.Name)
 }
 
+// This is used for setting default values for an EFS.
+// The main default we want to enforce is "General Purpose" for our mounts.
 func (e *Efs) Defaults() {
 	if e.Spec.Performance == "" {
 		e.Spec.Performance = PerformanceModeGeneralPurpose
 	}
 }
 
+// Ensures the user has provided the required values.
 func (e *Efs) Validate() error {
 	if e.Spec.Region == "" {
 		return fmt.Errorf("Region was not provided")
