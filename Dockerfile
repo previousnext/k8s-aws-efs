@@ -1,8 +1,13 @@
 FROM golang:1.8
 
-ENV GOPATH $GOPATH:$GOPATH/vendor
+ADD Makefile /go/Makefile
+ADD hack /go/hack
+ADD vendor /go/vendor
 
-ADD . /go
+ADD client /go/src/github.com/previousnext/client
+ADD provisioner /go/src/github.com/previousnext/provisioner
+ADD status /go/src/github.com/previousnext/status
+ADD cli /go/src/github.com/previousnext/cli
 
 RUN make && \
       mv bin/linux/cli/client /usr/local/bin/cli && \
