@@ -10,9 +10,9 @@ The following project provides a method for:
 
 The following project is broken up into the following components:
 
-* Provisioner - Creates EFS resources
-* Status - Updates Kubernetes with the status of the resources
-* CLI - Used for listing all the provisioned resources and their status
+* **Provisioner** - Creates EFS resources
+* **Status** - Updates Kubernetes with the status of the resources
+* **CLI** - Used for listing all the provisioned resources and their status
 
 ![Architecture](/docs/diagram.png "Architecture")
 
@@ -39,3 +39,13 @@ NAMESPACE       NAME            REGION          SUBNETS                         
 test            testing1        ap-southeast-2  subnet-XXXXXXXX, subnet-XXXXXXXX        sg-XXXXXXXX     fs-XXXXXXXX     Ready   2017-03-22 19:27:42.820665151 +1000 AEST
 test            testing2        ap-southeast-2  subnet-XXXXXXXX, subnet-XXXXXXXX        sg-XXXXXXXX     fs-XXXXXXXX     Ready   2017-03-22 19:27:42.965406845 +1000 AEST
 ```
+
+## IAM
+
+Permissions required for the controller components:
+
+* efs:DescribeFileSystems
+* efs:CreateFileSystem
+* efs:CreateTags
+* efs:DescribeMountTargets
+* efs:CreateMountTarget
