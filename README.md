@@ -14,6 +14,8 @@ The following project is broken up into the following components:
 * Status - Updates Kubernetes with the status of the resources
 * CLI - Used for listing all the provisioned resources and their status
 
+![Architecture](/docs/diagram.png "Architecture")
+
 ## Usage
 
 **Deploy the Kubernetes controller**
