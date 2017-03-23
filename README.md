@@ -44,8 +44,25 @@ test            testing2        ap-southeast-2  subnet-XXXXXXXX, subnet-XXXXXXXX
 
 Permissions required for the controller components:
 
-* efs:DescribeFileSystems
-* efs:CreateFileSystem
-* efs:CreateTags
-* efs:DescribeMountTargets
-* efs:CreateMountTarget
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "elasticfilesystem:DescribeFileSystems",
+                "elasticfilesystem:CreateFileSystem",
+                "elasticfilesystem:CreateTags",
+                "elasticfilesystem:DescribeMountTargets",
+                "elasticfilesystem:CreateMountTarget",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:CreateNetworkInterface"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+```
