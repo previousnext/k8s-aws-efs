@@ -15,7 +15,7 @@ spec:
         image: previousnext/k8s-aws-efs:latest
         imagePullPolicy: Always
         command:
-        - /provisioner
+        - provisioner
         resources:
           limits:
             cpu: 10m
@@ -27,7 +27,7 @@ spec:
         image: previousnext/k8s-aws-efs:latest
         imagePullPolicy: Always
         command:
-        - /status
+        - status
         resources:
           limits:
             cpu: 10m
