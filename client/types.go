@@ -58,7 +58,7 @@ func (e *Efs) Endpoint() (string, error) {
 		return "", fmt.Errorf("Cannot find filesystem region")
 	}
 
-	return fmt.Sprint("%s.efs.%s.amazonaws.com", e.Status.ID, e.Spec.Region), nil
+	return fmt.Sprintf("%s.efs.%s.amazonaws.com", e.Status.ID, e.Spec.Region), nil
 }
 
 // Changing the format of this out WILL result in new filesystems being created.

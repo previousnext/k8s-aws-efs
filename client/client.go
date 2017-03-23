@@ -66,6 +66,11 @@ func (c *Client) Put(efs Efs) error {
 	return c.rc.Put().Resource(Resource).Namespace(efs.Metadata.Namespace).Name(efs.Metadata.Name).Body(&efs).Do().Error()
 }
 
+// Sets the entire EFS object (Spec + Status).
+func (c *Client) Post(efs Efs) error {
+        return c.rc.Post().Resource(Resource).Namespace(efs.Metadata.Namespace).Body(&efs).Do().Error()
+}
+
 // Returns a list of Solr cores from all namespaces.
 func (c *Client) ListAll() (EfsList, error) {
 	s := EfsList{}
