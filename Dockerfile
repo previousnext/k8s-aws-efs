@@ -4,10 +4,7 @@ ADD Makefile /go/Makefile
 ADD hack /go/hack
 ADD vendor /go/vendor
 
-ADD client /go/src/github.com/previousnext/client
-ADD provisioner /go/src/github.com/previousnext/provisioner
-ADD status /go/src/github.com/previousnext/status
-ADD cli /go/src/github.com/previousnext/cli
+ADD src /go/src
 
 RUN make build && \
       mv bin/linux/cli/client /usr/local/bin/cli && \
