@@ -72,6 +72,16 @@ func (c *Client) Post(efs Efs) error {
 }
 
 // Returns a list of Solr cores from all namespaces.
+func (c *Client) List(namespace string) (EfsList, error) {
+	s := EfsList{}
+	err := c.rc.Get().Resource(Resource).Namespace(namespace).Do().Into(&s)
+	if err != nil {
+		return s, err
+	}
+	return s, nil
+}
+
+// Returns a list of Solr cores from all namespaces.
 func (c *Client) ListAll() (EfsList, error) {
 	s := EfsList{}
 	err := c.rc.Get().Resource(Resource).Do().Into(&s)
