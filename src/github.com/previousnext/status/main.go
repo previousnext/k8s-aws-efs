@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	cliSync = kingpin.Flag("sync-period", "How often to sync AWS EFS to K8s objects").Default("60s").OverrideDefaultFromEnvar("SYNC_PERIOD").Duration()
+	cliSync = kingpin.Flag("sync-period", "How often to sync AWS EFS to K8s objects").Default("360s").OverrideDefaultFromEnvar("SYNC_PERIOD").Duration()
 )
 
 func main() {
@@ -61,24 +61,11 @@ func main() {
 
 			fmt.Println(name, "| Checking filesystem")
 
-			// We start off by assuming that the filesystem is not ready.
-			// That way we can fail early and be sure that we
-			updates[name] = &client.Efs{
-				Metadata: e.Metadata,
-				Status: client.EfsStatus{
-					LastUpdate:     time.Now(),
-					LifeCycleState: client.LifeCycleStateUnknown,
-				},
-			}
-
 			id, fs, err := checkFilesystem(svc, name)
 			if err != nil {
 				fmt.Println(name, "| Failed to check filesystem:", name, err)
 				continue
 			}
-
-			// Add the ID to the list, that way the user can get a mount point.
-			updates[name].Status.ID = id
 
 			mnts, err := checkMounts(svc, id)
 			if err != nil {
@@ -86,12 +73,21 @@ func main() {
 				continue
 			}
 
-			if fs && mnts {
-				updates[name].Status.LifeCycleState = client.LifeCycleStateReady
-			} else {
-				updates[name].Status.LifeCycleState = client.LifeCycleStateNotReady
+			status := client.EfsStatus{
+				ID:         id,
+				LastUpdate: time.Now(),
 			}
 
+			if fs && mnts {
+				status.LifeCycleState = client.LifeCycleStateReady
+			} else {
+				status.LifeCycleState = client.LifeCycleStateNotReady
+			}
+
+			updates[name] = &client.Efs{
+				Metadata: e.Metadata,
+				Status:   status,
+			}
 		}
 
 		// Now we go through and patch all the EFS API objects.
