@@ -1,20 +1,14 @@
 FROM golang:1.8
 
-ADD Makefile /go/Makefile
-ADD hack /go/hack
-ADD vendor /go/vendor
+ADD . /go
+RUN make build
 
-ADD src /go/src
+FROM alpine:latest
 
-RUN make build && \
-      mv bin/linux/cli/client /usr/local/bin/cli && \
-      mv bin/linux/server/provisioner /usr/local/bin/provisioner && \
-      mv bin/linux/server/status /usr/local/bin/status && \
-      chmod a+x /usr/local/bin/cli && \
-      chmod a+x /usr/local/bin/provisioner && \
-      chmod a+x /usr/local/bin/status
+RUN apk --no-cache add ca-certificates
 
-# Cleanup.
-RUN rm -fR /go
+COPY --from=0 /go/bin/linux/cli/client /usr/local/bin/client
+COPY --from=0 /go/bin/linux/server/provisioner /usr/local/bin/provisioner
+COPY --from=0 /go/bin/linux/server/status /usr/local/bin/status
 
 CMD ["cli"]
