@@ -19,7 +19,7 @@ First we need to deploy our provisioner, this component is responsible for:
  
 * Interfacing with a PersistentVolumeClaim
 * Provisioning the required AWS EFS storage
-* Returning the information needed to mount the storage to the PersistentVolumeClaim
+* Returning the information needed to mount the storage
 
 To deploy, create a file called `provisioner.yaml` with the contents below and run:
 
