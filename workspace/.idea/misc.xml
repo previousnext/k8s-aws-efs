@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GOROOT" path="/usr/local/go" />
+  <component name="GoLibraries">
+    <option name="urls">
+      <list>
+        <option value="file://$PROJECT_DIR$" />
+        <option value="file://$PROJECT_DIR$/vendor" />
+      </list>
+    </option>
+  </component>
+  <component name="PreferredVcsStorage">
+    <preferredVcsName>ApexVCS</preferredVcsName>
+  </component>
+</project>

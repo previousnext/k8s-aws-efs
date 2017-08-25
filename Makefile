@@ -1,11 +1,12 @@
 #!/usr/bin/make -f
 
+VERSION=$(shell git describe --tags --always)
+IMAGE=previousnext/k8s-aws-efs
+
+release: build push
+
 build:
-	./hack/build.sh linux server provisioner github.com/previousnext/provisioner
-	./hack/build.sh linux server status github.com/previousnext/status
-	./hack/build.sh linux cli client github.com/previousnext/cli
+	docker build -t ${IMAGE}:${VERSION} .
 
-docker:
-	docker build -t previousnext/k8s-aws-efs .
-
-.PHONY: build docker
+push:
+	docker push ${IMAGE}:${VERSION}

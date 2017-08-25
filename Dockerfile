@@ -1,14 +1,9 @@
 FROM golang:1.8
-
-ADD . /go
+ADD workspace /go
+RUN go get github.com/mitchellh/gox
 RUN make build
 
-FROM alpine:latest
-
+FROM alpine:3.6
 RUN apk --no-cache add ca-certificates
-
-COPY --from=0 /go/bin/linux/cli/client /usr/local/bin/client
-COPY --from=0 /go/bin/linux/server/provisioner /usr/local/bin/provisioner
-COPY --from=0 /go/bin/linux/server/status /usr/local/bin/status
-
-CMD ["cli"]
+COPY --from=0 /go/bin/k8s-aws-efs_linux_amd64 /usr/local/bin/k8s-aws-efs
+CMD ["k8s-aws-efs"]
