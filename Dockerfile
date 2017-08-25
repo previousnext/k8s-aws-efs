@@ -1,20 +1,9 @@
 FROM golang:1.8
+ADD workspace /go
+RUN go get github.com/mitchellh/gox
+RUN make build
 
-ADD Makefile /go/Makefile
-ADD hack /go/hack
-ADD vendor /go/vendor
-
-ADD src /go/src
-
-RUN make build && \
-      mv bin/linux/cli/client /usr/local/bin/cli && \
-      mv bin/linux/server/provisioner /usr/local/bin/provisioner && \
-      mv bin/linux/server/status /usr/local/bin/status && \
-      chmod a+x /usr/local/bin/cli && \
-      chmod a+x /usr/local/bin/provisioner && \
-      chmod a+x /usr/local/bin/status
-
-# Cleanup.
-RUN rm -fR /go
-
-CMD ["cli"]
+FROM alpine:3.6
+RUN apk --no-cache add ca-certificates
+COPY --from=0 /go/bin/k8s-aws-efs_linux_amd64 /usr/local/bin/k8s-aws-efs
+CMD ["k8s-aws-efs"]
