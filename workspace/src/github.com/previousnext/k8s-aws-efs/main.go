@@ -65,7 +65,7 @@ func NewProvisioner() (string, controller.Provisioner, error) {
 		// types of storage eg.
 		//   * skpr.io/aws/efs/generalPurpose
 		//   * skpr.io/aws/efs/maxIO
-		apiVersion = fmt.Sprintf("storage.skpr.io/aws-efs-%s", performance)
+		apiVersion = fmt.Sprintf("efs.aws.skpr.io/%s", performance)
 	}
 
 	// Region to provision the storage in.
