@@ -25,7 +25,6 @@ func Create(region, name string, subnets []string, securityGroup string, perform
 	}
 
 	// Wait for the filesystem to become available.
-	// @todo, We need to have a "bail out" point just to be sure we are locked in a loop.
 	for {
 		glog.Infof("Waiting for filesystem to become ready: %s", name)
 
@@ -45,7 +44,6 @@ func Create(region, name string, subnets []string, securityGroup string, perform
 	}
 
 	// Create the mount targets.
-	// @todo, Make this run in parrallel for speed.
 	for _, subnet := range subnets {
 		_, err := CreateMount(client, *fs.FileSystemId, subnet, securityGroup)
 		if err != nil {

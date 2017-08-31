@@ -48,10 +48,6 @@ spec:
           env:
             - name:  EFS_PERFORMANCE
               value: "generalPurpose"
-            - name:  AWS_ACCESS_KEY_ID
-              value: "XXXXXXXXXXXXXXXXXXX"
-            - name:  AWS_SECRET_ACCESS_KEY
-              value: "XXXXXXXXXXXXXXXXXXX"
             - name:  AWS_REGION
               value: "ap-southeast-2"
             - name:  AWS_SECURITY_GROUP
@@ -77,7 +73,7 @@ kind: StorageClass
 apiVersion: storage.k8s.io/v1beta1
 metadata:
   name: aws-efs-gp
-provisioner: storage.skpr.io/aws-efs-generalPurpose
+provisioner: efs.aws.skpr.io/generalPurpose
 ```
 
 **Create your first test PersistentVolumeClaim**
@@ -116,6 +112,51 @@ test             Bound     fs-f6e605cf   8E         RWX           aws-efs-gp    
 ```
 
 _NOTE: It will take 5(ish) minutes to get to the below state._
+
+## AWS Configuration
+
+**IAM Role**
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticfilesystem:DescribeFileSystems",
+        "elasticfilesystem:CreateFileSystem",
+        "elasticfilesystem:CreateTags",
+        "elasticfilesystem:DescribeMountTargets",
+        "elasticfilesystem:CreateMountTarget"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+**Credentials**
+
+Before using the tool, ensure that you've configured credentials. The best
+way to configure credentials on a development machine is to use the
+`~/.aws/credentials` file, which might look like:
+
+```ini
+[default]
+aws_access_key_id = AKID1234567890
+aws_secret_access_key = MY-SECRET-KEY
+```
+
+You can learn more about the credentials file from this
+[blog post](http://blogs.aws.amazon.com/security/post/Tx3D6U6WSFGOK2H/A-New-and-Standardized-Way-to-Manage-Credentials-in-the-AWS-SDKs).
+
+Alternatively, you can set the following environment variables:
+
+```
+AWS_ACCESS_KEY_ID=AKID1234567890
+AWS_SECRET_ACCESS_KEY=MY-SECRET-KEY
+```
 
 ## Resources
 
