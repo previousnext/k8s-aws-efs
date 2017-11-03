@@ -45,7 +45,7 @@ func (p *efsProvisioner) Provision(options controller.VolumeOptions) (*v1.Persis
 		},
 		Spec: v1.PersistentVolumeSpec{
 			// PersistentVolumeReclaimPolicy, AccessModes and Capacity are required fields.
-			PersistentVolumeReclaimPolicy: options.PersistentVolumeReclaimPolicy,
+			PersistentVolumeReclaimPolicy: v1.PersistentVolumeReclaimRetain,
 			AccessModes:                   options.PVC.Spec.AccessModes,
 			Capacity: v1.ResourceList{
 				// AWS EFS returns a "massive" file storage size when mounted. We replicate that here.
