@@ -13,6 +13,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// MountOptionAnnotation is the annotation on a PV object that specifies a
+// comma separated list of mount options
+const MountOptionAnnotation = "volume.beta.kubernetes.io/mount-options"
+
 // Provision creates a storage asset and returns a PV object representing it.
 func (p *efsProvisioner) Provision(options controller.VolumeOptions) (*v1.PersistentVolume, error) {
 	// This is a consistent naming pattern for provisioning our EFS objects.
@@ -33,6 +37,11 @@ func (p *efsProvisioner) Provision(options controller.VolumeOptions) (*v1.Persis
 	pv := &v1.PersistentVolume{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: id,
+			Annotations: map[string]string{
+				// https://kubernetes.io/docs/concepts/storage/persistent-volumes
+				// http://docs.aws.amazon.com/efs/latest/ug/mounting-fs-mount-cmd-dns-name.html
+				MountOptionAnnotation: "nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2",
+			},
 		},
 		Spec: v1.PersistentVolumeSpec{
 			// PersistentVolumeReclaimPolicy, AccessModes and Capacity are required fields.
