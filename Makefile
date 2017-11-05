@@ -14,7 +14,7 @@ lint:
 
 # Run tests with coverage reporting
 test:
-	go test -cover ./...
+	go test -cover $(PROJECT)
 
 IMAGE=previousnext/k8s-aws-efs
 VERSION=$(shell git describe --tags --always)

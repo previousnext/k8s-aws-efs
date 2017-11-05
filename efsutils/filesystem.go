@@ -5,7 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/efs"
 )
 
-// Helper function to check if a filesystem exists, or create it if not present.
+// CreateFilesystem is a wrapper function to check if a filesystem exists, or create it if not present.
 func CreateFilesystem(svc *efs.EFS, name string, performance string) (*efs.FileSystemDescription, error) {
 	describe, err := svc.DescribeFileSystems(&efs.DescribeFileSystemsInput{
 		CreationToken: aws.String(name),
