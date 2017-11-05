@@ -5,7 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/efs"
 )
 
-// Helper function to create EFS mount points.
+// CreateMount creates EFS a mount point.
 func CreateMount(svc *efs.EFS, id, subnet, security string) (*efs.MountTargetDescription, error) {
 	// Check if a mount exists in this subnet.
 	mnts, err := svc.DescribeMountTargets(&efs.DescribeMountTargetsInput{

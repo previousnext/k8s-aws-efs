@@ -10,6 +10,7 @@ import (
 	"github.com/golang/glog"
 )
 
+// Create is used to create a new Elastic Filesystem.
 func Create(region, name string, subnets []string, securityGroup string, performance string) (string, error) {
 	var (
 		client = efs.New(session.New(&aws.Config{Region: aws.String(region)}))
