@@ -11,6 +11,15 @@ This project would not be possible without:
 
 https://github.com/kubernetes-incubator/external-storage
 
+**Why not _external-storage/aws/efs?_**
+
+That project uses an existing EFS filesystem and mounts subfolders for each PersistentVolumeClaim.
+
+This project provisions a new EFS filesystem for each PersistentVolumeClaim, giving us:
+
+* Security - Not all stored on the one filesystem
+* Reliability - Other applications don't shared the same IOPs budget as your mount
+
 ## Usage
 
 **Deploy the provisioner**
