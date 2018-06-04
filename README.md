@@ -128,20 +128,23 @@ _NOTE: It will take 5(ish) minutes to get to the below state._
 
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "elasticfilesystem:DescribeFileSystems",
-        "elasticfilesystem:CreateFileSystem",
-        "elasticfilesystem:CreateTags",
-        "elasticfilesystem:DescribeMountTargets",
-        "elasticfilesystem:CreateMountTarget"
-      ],
-      "Resource": "*"
-    }
-  ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "elasticfilesystem:DescribeFileSystems",
+                "elasticfilesystem:CreateFileSystem",
+                "elasticfilesystem:CreateTags",
+                "elasticfilesystem:DescribeMountTargets",
+                "elasticfilesystem:CreateMountTarget",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:CreateNetworkInterface"
+            ],
+            "Resource": "*"
+        }
+    ]
 }
 ```
 
