@@ -10,7 +10,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/efs"
 	"github.com/golang/glog"
 	"github.com/kelseyhightower/envconfig"
-	log "github.com/sirupsen/logrus"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -27,25 +26,25 @@ func main() {
 	// to use to communicate with Kubernetes
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		log.Fatal("Failed to create config: %s", err)
+		glog.Fatalf("Failed to create config: %s", err)
 	}
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		log.Fatal("Failed to create client: %s", err)
+		glog.Fatalf("Failed to create client: %s", err)
 	}
 
 	// The controller needs to know what the server version is because out-of-tree
 	// provisioners aren't officially supported until 1.5
 	serverVersion, err := clientset.Discovery().ServerVersion()
 	if err != nil {
-		glog.Fatal("Error getting server version: %s", err)
+		glog.Fatalf("Error getting server version: %s", err)
 	}
 
 	var params provisioner.Params
 
 	err = envconfig.Process("provisioner", &params)
 	if err != nil {
-		glog.Fatal("Failed to load params: %s", err)
+		glog.Fatalf("Failed to load params: %s", err)
 	}
 
 	apiVersion := os.Getenv("API_VERSION")
@@ -61,7 +60,7 @@ func main() {
 
 	provisioner, err := provisioner.New(client, params)
 	if err != nil {
-		glog.Fatal("Failed to create provisioner: %s", err)
+		glog.Fatalf("Failed to create provisioner: %s", err)
 	}
 
 	glog.Infof("Running provisioner: %s", apiVersion)
