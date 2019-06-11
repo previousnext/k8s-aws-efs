@@ -1,4 +1,4 @@
-package efsutils
+package provisioner
 
 // LifeCycleState contains all the states which an EFS can be.
 type LifeCycleState string

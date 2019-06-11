@@ -1,16 +1,16 @@
-package main
+package provisioner
 
 import (
 	"testing"
 
-	"github.com/kubernetes-incubator/external-storage/lib/controller"
 	"github.com/stretchr/testify/assert"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/sig-storage-lib-external-provisioner/controller"
 )
 
 func TestFormatName(t *testing.T) {
-	foo := controller.VolumeOptions{
+	foo := controller.ProvisionOptions{
 		PVName: "bar",
 		PVC: &v1.PersistentVolumeClaim{
 			ObjectMeta: metav1.ObjectMeta{
