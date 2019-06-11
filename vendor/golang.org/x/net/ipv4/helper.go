@@ -5,35 +5,37 @@
 package ipv4
 
 import (
-	"encoding/binary"
 	"errors"
 	"net"
-	"unsafe"
+	"runtime"
+
+	"golang.org/x/net/internal/socket"
 )
 
 var (
+	errInvalidConn              = errors.New("invalid connection")
 	errMissingAddress           = errors.New("missing address")
 	errMissingHeader            = errors.New("missing header")
+	errNilHeader                = errors.New("nil header")
 	errHeaderTooShort           = errors.New("header too short")
-	errBufferTooShort           = errors.New("buffer too short")
+	errExtHeaderTooShort        = errors.New("extension header too short")
 	errInvalidConnType          = errors.New("invalid conn type")
-	errOpNoSupport              = errors.New("operation not supported")
 	errNoSuchInterface          = errors.New("no such interface")
 	errNoSuchMulticastInterface = errors.New("no such multicast interface")
+	errNotImplemented           = errors.New("not implemented on " + runtime.GOOS + "/" + runtime.GOARCH)
 
 	// See http://www.freebsd.org/doc/en/books/porters-handbook/freebsd-versions.html.
-	freebsdVersion uint32
-
-	nativeEndian binary.ByteOrder
+	freebsdVersion  uint32
+	compatFreeBSD32 bool // 386 emulation on amd64
 )
 
-func init() {
-	i := uint32(1)
-	b := (*[4]byte)(unsafe.Pointer(&i))
-	if b[0] == 1 {
-		nativeEndian = binary.LittleEndian
-	} else {
-		nativeEndian = binary.BigEndian
+// See golang.org/issue/30899.
+func adjustFreeBSD32(m *socket.Message) {
+	if freebsdVersion >= 1103000 {
+		l := (m.NN + 4 - 1) &^ (4 - 1)
+		if m.NN < l && l <= len(m.OOB) {
+			m.NN = l
+		}
 	}
 }
 
@@ -56,4 +58,22 @@ func netAddrToIP4(a net.Addr) net.IP {
 		}
 	}
 	return nil
+}
+
+func opAddr(a net.Addr) net.Addr {
+	switch a.(type) {
+	case *net.TCPAddr:
+		if a == nil {
+			return nil
+		}
+	case *net.UDPAddr:
+		if a == nil {
+			return nil
+		}
+	case *net.IPAddr:
+		if a == nil {
+			return nil
+		}
+	}
+	return a
 }
