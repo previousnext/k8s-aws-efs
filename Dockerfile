@@ -1,4 +1,4 @@
-FROM golang:1.12
+FROM golang:1.13
 ENV GO111MODULE=on
 ADD . /go/src/github.com/previousnext/k8s-aws-efs
 WORKDIR /go/src/github.com/previousnext/k8s-aws-efs
