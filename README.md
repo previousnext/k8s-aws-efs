@@ -1,6 +1,8 @@
 Kubernetes - Storage Class - AWS EFS
 ====================================
 
+# Depreciated, use https://github.com/codedropau/efs-provisioner
+
 [![CircleCI](https://circleci.com/gh/previousnext/k8s-aws-efs.svg?style=svg)](https://circleci.com/gh/previousnext/k8s-aws-efs)
 
 **Maintainer**: Nick Schuch
